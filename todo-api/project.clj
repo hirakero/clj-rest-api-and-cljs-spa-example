@@ -8,7 +8,8 @@
                  [duct/module.logging "0.5.0"]
                  [duct/module.sql "0.6.1"]
                  [duct/module.web "0.7.3"]
-                 [org.postgresql/postgresql "42.2.19"]]
+                 [org.postgresql/postgresql "42.2.19"]
+                 [seancorfield/next.jdbc "1.1.569"]]
   :plugins [[duct/lein-duct "0.12.3"]]
   :main ^:skip-aot todo-api.main
   :resource-paths ["resources" "target/resources"]
@@ -26,7 +27,8 @@
                                    [hawk "0.2.11"]
                                    [eftest "0.5.9"]
                                    [kerodon "0.9.1"]
-                                   [fipp "0.6.23"]]
+                                   [fipp "0.6.23"]
+                                   [orchestra "2020.07.12-1"]]
                   :aliases {"db-migrate" ^{:doc "migrate db to the latest migration."}
                             ["run" "-m" "dev/db-migrate"]
                             "db-rollback" ^{:doc "rollback db one migration."}

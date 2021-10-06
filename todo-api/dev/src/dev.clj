@@ -8,15 +8,20 @@
             [duct.core.repl :as duct-repl :refer [auto-reset]]
             [eftest.runner :as eftest]
             [integrant.core :as ig]
-            [integrant.repl :refer [clear halt go init prep reset]]
+            [integrant.repl :refer [clear halt go init prep]]
             [integrant.repl.state :refer [config system]]
             [ragtime.jdbc]
-            [ragtime.repl]))
+            [ragtime.repl]
+            [orchestra.spec.test :as stest]))
 
 (duct/load-hierarchy)
 
 (defn read-config []
   (duct/read-config (io/resource "todo_api/config.edn")))
+
+(defn reset []
+  (let [result (integrant.repl/reset)]
+    (with-out-str)))
 
 (defn test []
   (eftest/run-tests (eftest/find-tests "test")))
@@ -39,9 +44,10 @@
                       (ig/init [resources-key])
                       (get resources-key))})))
 
+
 (defn db-migrate [env]
   (validate-env env)
-  (ragtime.repl/migrate (load-migration-config env)));
+  (ragtime.repl/migrate (load-migration-config env)))
 
 (defn db-rollback [env]
   (validate-env env)
