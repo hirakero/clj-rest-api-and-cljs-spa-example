@@ -19,6 +19,11 @@
             [:get "/todos/" todo-id] [:todo-api.handler.todo/fetch-todo ^int todo-id]
             [:delete "/todos/" todo-id] [:todo-api.handler.todo/delete-todo ^int todo-id]
             [:put "/todos/" todo-id {todo :body-params}] [:todo-api.handler.todo/update-todo ^int todo-id todo]}}
+}
+
+ :duct.profile/dev   #duct/include "dev"
+ :duct.profile/local #duct/include "local"
+ :duct.profile/prod  {}
 
   ;↓動かない？
 ;;   :duct.module/ataraxy
@@ -29,14 +34,6 @@
 ;;     {:get [:todo/fetch-todo ^int todo-id]
 ;;      :delete [:todo/delete-todo ^int todo-id]
 ;;      [:put {todo :body-params}] [:todo/update-todo ^int todo-id todo]}}}
-
-  :todo-api.handler/example
-  {:db #ig/ref :duct.database/sql}}
-
- :duct.profile/dev   #duct/include "dev"
- :duct.profile/local #duct/include "local"
- :duct.profile/prod  {}
-
  :duct.module/logging {}
  :duct.module.web/api
  {}

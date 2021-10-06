@@ -1,9 +1,9 @@
 (ns todo-api.boundary.db.todo
   (:require [clojure.spec.alpha :as s]
             [duct.database.sql]
-            #_[next.jdbc :as jdbc]
-            #_[next.jdbc.result-set :as rs]
-            #_[next.jdbc.sql :as sql]))
+            [next.jdbc :as jdbc]
+            [next.jdbc.result-set :as rs]
+            [next.jdbc.sql :as sql]))
 
 (s/def ::id nat-int?)
 (s/def ::task string?)
@@ -39,7 +39,7 @@
 
 (defprotocol Todo
   (find-todos [db])
-  {find-todo-by-id [db id]}
+  (find-todo-by-id [db id])
   (create-todo! [db todo])
   (upsert-todo! [db id todo])
   (delete-todo! [db id]))
@@ -52,10 +52,11 @@
    :builder-fn rs/as-unqualified-lower-maps})
 
 (extend-protocol Todo
-  duct.database.sql.boundary
+  duct.database.sql.Boundary
   (find-todos [db]
     (sql/query (->connectable db)
-               ["SELECT id, task FROM todo"] jdbc-opts))
+               ["SELECT id, task FROM todo"] 
+               jdbc-opts))
   (find-todo-by-id [db id]
     (sql/get-by-id (->connectable db)
                    :todo id jdbc-opts))
@@ -65,8 +66,8 @@
         :id))
   (upsert-todo! [db id {:keys [task]}]
     (-> (->connectable db)
-        (jdbc/execute-one! ["INSERT INTO todo (id, task) VALUES (?,?)
-                            ON CONFLICT ON CONSTRAINT todo_pkey
+        (jdbc/execute-one! ["INSERT INTO todo (id, task) VALUES (?, ?)
+                             ON CONFLICT ON CONSTRAINT todo_pkey
                              DO UPDATE SET task = ?"
                             id task task]
                            jdbc-opts)

@@ -26,7 +26,6 @@
 (defn test []
   (eftest/run-tests (eftest/find-tests "test")))
 
-
 (def env-profiles
   {"dev" [:duct.profile/dev :duct.profile/local]})
 
@@ -37,13 +36,12 @@
 (defn- load-migration-config [env]
   (when-let [profiles (get env-profiles env)]
     (let [prepped (duct/prep-config (read-config) profiles)
-          {{:keys [connection-url]} :duct.database.sql/hikaricp} prepped
+          {{:keys [connection-uri]} :duct.database.sql/hikaricp} prepped
           resources-key :duct.migrator.ragtime/resources]
-      {:datastore (ragtime.jdbc/sql-database connection-url)
-       :migration (-> prepped
+      {:datastore (ragtime.jdbc/sql-database connection-uri)
+       :migrations (-> prepped
                       (ig/init [resources-key])
                       (get resources-key))})))
-
 
 (defn db-migrate [env]
   (validate-env env)
