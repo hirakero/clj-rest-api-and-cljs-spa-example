@@ -42,7 +42,6 @@
 
 (defmethod ig/init-key ::update-todo [_ {:keys [db]}]
   (fn [{[_ todo-id todo] :ataraxy/result}]
-    (clojure.pprint/pprint todo)
     (swap! todos assoc todo-id (merge {:id todo-id}
                                       (select-keys todo [:task])))
     [::response/created (str "/todos/" todo-id) (get @todos todo-id)]))

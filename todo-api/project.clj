@@ -26,4 +26,8 @@
                                    [hawk "0.2.11"]
                                    [eftest "0.5.9"]
                                    [kerodon "0.9.1"]
-                                   [fipp "0.6.23"]]}})
+                                   [fipp "0.6.23"]]
+                  :aliases {"db-migrate" ^{:doc "migrate db to the latest migration."}
+                            ["run" "-m" "dev/db-migrate"]
+                            "db-rollback" ^{:doc "rollback db one migration."}
+                            ["run" "-m" "dev/db-rollback"]}}})
