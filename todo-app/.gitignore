@@ -5,6 +5,10 @@ public/js
 /checkouts
 /src/gen
 
+/.calva
+/.clj-kondo
+/.shadow-cljs
+
 pom.xml
 pom.xml.asc
 *.iml
